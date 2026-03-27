@@ -174,9 +174,7 @@ export function Home() {
                  </div>
               </div>
               <div className="lg:w-1/2 w-full flex justify-center px-4">
-                 <ThreeDCard>
-                    <IdeaCatcherGame />
-                 </ThreeDCard>
+                  <IdeaCatcherGame />
               </div>
            </div>
         </section>

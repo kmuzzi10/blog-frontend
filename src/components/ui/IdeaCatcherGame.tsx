@@ -17,20 +17,24 @@ export const IdeaCatcherGame = () => {
   const [score, setScore] = useState(0);
   const [ideas, setIdeas] = useState<Idea[]>([]);
   const [gameOver, setGameOver] = useState(false);
+  const [showVictory, setShowVictory] = useState(false);
   const gameContainerRef = useRef<HTMLDivElement>(null);
   const nextId = useRef(0);
+  const scoreRef = useRef(0);
 
   const spawnIdea = () => {
-    if (!gameContainerRef.current) return;
-    const rect = gameContainerRef.current.getBoundingClientRect();
+    const container = gameContainerRef.current;
+    if (!container) return;
+    
+    const width = container.clientWidth;
     const types: Idea['type'][] = ['post', 'comment', 'insight', 'spam'];
     const emojis = { post: '📝', comment: '💬', insight: '💡', spam: '🚫' };
     const type = types[Math.floor(Math.random() * types.length)];
     
     const newIdea: Idea = {
       id: nextId.current++,
-      x: Math.random() * (rect.width - 50),
-      y: -50,
+      x: Math.random() * (width - 60) + 10,
+      y: -60,
       type,
       emoji: emojis[type]
     };
@@ -47,11 +51,9 @@ export const IdeaCatcherGame = () => {
       
       moveInterval = setInterval(() => {
         setIdeas(prev => {
-          const updated = prev.map(idea => ({ ...idea, y: idea.y + 5 }))
-                             .filter(idea => idea.y < 500);
-          
-          // Check if spam escaped or missed insights
-          return updated;
+          const containerHeight = gameContainerRef.current?.clientHeight || 500;
+          return prev.map(idea => ({ ...idea, y: idea.y + 4 }))
+                     .filter(idea => idea.y < containerHeight + 50);
         });
       }, 30);
     }
@@ -63,22 +65,33 @@ export const IdeaCatcherGame = () => {
   }, [isPlaying, gameOver]);
 
   const handleCatch = (id: number, type: Idea['type']) => {
-    if (type === 'spam') {
-      setScore(prev => Math.max(0, prev - 5));
-    } else {
-      setScore(prev => prev + 1);
-    }
+    if (gameOver) return;
+
+    setScore(prev => {
+      let newScore = prev;
+      if (type === 'spam') {
+        newScore = Math.max(0, prev - 5);
+      } else {
+        newScore = prev + 1;
+      }
+      
+      scoreRef.current = newScore;
+      if (newScore >= 20 && !gameOver) {
+        setGameOver(true);
+        setShowVictory(true);
+      }
+      return newScore;
+    });
+
     setIdeas(prev => prev.filter(i => i.id !== id));
-    
-    if (score >= 19 && !gameOver) {
-       // Just achieved 20
-    }
   };
 
   const startGame = () => {
     setScore(0);
+    scoreRef.current = 0;
     setIdeas([]);
     setGameOver(false);
+    setShowVictory(false);
     setIsPlaying(true);
   };
 
@@ -115,18 +128,22 @@ export const IdeaCatcherGame = () => {
           {isPlaying && ideas.map(idea => (
             <motion.div
               key={idea.id}
-              initial={{ opacity: 0, scale: 0 }}
-              animate={{ opacity: 1, scale: 1 }}
+              initial={{ opacity: 0, scale: 0, x: idea.x, y: idea.y }}
+              animate={{ opacity: 1, scale: 1, y: idea.y }}
               exit={{ opacity: 0, scale: 1.5 }}
-              onClick={() => handleCatch(idea.id, idea.type)}
-              className="absolute w-12 h-12 flex items-center justify-center bg-white rounded-full shadow-clay-card cursor-pointer hover:scale-110 active:scale-90 transition-transform select-none"
-              style={{ left: idea.x, top: idea.y }}
+              transition={{ type: 'spring', damping: 15, stiffness: 100 }}
+              onClick={(e) => {
+                e.stopPropagation();
+                handleCatch(idea.id, idea.type);
+              }}
+              className="absolute w-12 h-12 flex items-center justify-center bg-white rounded-full shadow-clay-card cursor-pointer hover:scale-110 active:scale-90 transition-transform select-none z-10 pointer-events-auto"
+              style={{ left: 0, top: 0, transform: `translate(${idea.x}px, ${idea.y}px)` }}
             >
-              <span className="text-2xl">{idea.emoji}</span>
+              <span className="text-2xl pointer-events-none">{idea.emoji}</span>
             </motion.div>
           ))}
 
-          {score >= 20 && (
+          {showVictory && (
              <motion.div 
                initial={{ y: 50, opacity: 0 }} animate={{ y: 0, opacity: 1 }}
                className="absolute inset-0 flex flex-col items-center justify-center bg-accent/90 backdrop-blur-md z-40 text-white p-8 text-center"
