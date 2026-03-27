@@ -1,73 +1,79 @@
-# React + TypeScript + Vite
+# 🚀 ClayBlog - Premium Content Platform
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+ClayBlog is a high-performance, full-stack blogging ecosystem built with a focus on **Clean Architecture**, **Security**, and a state-of-the-art **Claymorphic** UI. It allows authors to publish engaging stories and admins to moderate the platform through a centralized dashboard.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## 🏗️ The System Architecture
 
-## React Compiler
+### 🛡️ Clean Backend (The Engine)
+Our backend follows **Clean Architecture** principles to separate business rules from technical details (database, web framework).
+*   **Separation of Concerns**: Logic is divided into Domain, Modules, and Infrastructure layers.
+*   **Performance**: Uses **MongoDB Aggregation Pipelines** to perform heavy joins and counts directly on the database side.
+*   **Security**: Hardened with **Rate Limiting**, **Helmet security headers**, **CORS origin validation**, and **NoSQL Injection protection**.
+*   **Serverless Ready**: Optimized for Vercel with specific database connection middlewares to eliminate cold-start timeouts.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### 🎨 Premium Frontend (The Interface)
+The frontend is built for speed and visual "wow" using a **Claymorphic** design system.
+*   **Tactile UI**: Uses soft shadows and rounded depth (`shadow-clay`) to create a premium feel.
+*   **Lightning Fast**: Built with **Vite + React + TypeScript** for near-instant interaction.
+*   **Auth Management**: Centralized React Context for JWT lifecycle and role-based access control.
+*   **Responsive Dashboard**: Tailored views for Authors (post management) and Admins (user moderation).
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 🚀 Getting Started
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### 1. Prerequisites
+*   **Node.js** (v18+)
+*   **MongoDB Atlas Account** (Free tier works perfectly)
+*   **Vercel Account** (For deployment)
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+---
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### 2. Backend Setup (`/server`)
+1.  **Enter Directory**: `cd server`
+2.  **Install**: `npm install`
+3.  **Environment**: Create a `.env` file with these keys:
+    ```env
+    MONGODB_URI=your_mongodb_atlas_url
+    JWT_SECRET=your_secure_random_string
+    JWT_REFRESH_SECRET=another_random_string
+    ALLOWED_ORIGINS=http://localhost:5173
+    LOG_LEVEL=info
+    ADMIN_REGISTRATION_SECRET=super-secret-admin-key-123
+    ```
+4.  **Run Development**: `npm run dev`
+
+---
+
+### 3. Frontend Setup (`/client`)
+1.  **Enter Directory**: `cd client`
+2.  **Install**: `npm install`
+3.  **Environment**: Create a `.env` file with this key:
+    ```env
+    VITE_API_BASE_URL=http://localhost:5000/api/v1
+    ```
+4.  **Run Development**: `npm run dev`
+
+---
+
+## 📁 Repository Structure
+
+```text
+├── client/          # Vite + React (TypeScript) + Tailwind
+│   ├── src/
+│   │   ├── components/  # Reusable Claymorphic components
+│   │   ├── contexts/    # Auth state management
+│   │   ├── pages/       # Dashboard and Public views
+│   └── vercel.json     # SPA routing configuration
+└── server/          # Node.js + Express (TypeScript) + MongoDB
+    ├── src/
+    │   ├── domain/      # Pure business logic (Zero dependencies)
+    │   ├── modules/     # Use cases, Controllers, and Routes
+    │   ├── infrastructure/ # Database models & Repositories
+    └── vercel.json     # Serverless function routing
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+---
+*Built with ❤️ for a modern, scalable content experience.*

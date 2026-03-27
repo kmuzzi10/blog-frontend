@@ -140,26 +140,28 @@ export function BlogDetail() {
       </Link>
       
       {/* Header Info */}
-      <div className="space-y-6 text-center">
-        <Badge variant="accent" className="mx-auto px-6 py-1.5 shadow-clay-badge border-0">{post.category?.name || 'Uncategorized'}</Badge>
-        <h1 className="text-4xl md:text-6xl font-black tracking-tight text-gray-900 !leading-tight">
+      <div className="space-y-6 text-center px-4">
+        <div className="flex justify-center">
+          <Badge variant="accent" className="px-6 py-1.5 shadow-clay-badge border-0">{post.category?.name || 'Uncategorized'}</Badge>
+        </div>
+        <h1 className="text-3xl sm:text-4xl md:text-6xl font-black tracking-tight text-gray-900 !leading-tight">
           {post.title}
         </h1>
-        <p className="text-xl text-gray-500 max-w-2xl mx-auto font-medium leading-relaxed">{post.excerpt}</p>
+        <p className="text-lg sm:text-xl text-gray-500 max-w-2xl mx-auto font-medium leading-relaxed">{post.excerpt}</p>
         
-        <div className="flex items-center justify-center gap-4 pt-4">
-          <div className="w-16 h-16 rounded-full shadow-clay border-4 border-white overflow-hidden bg-gray-50">
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
+          <div className="w-16 h-16 rounded-full shadow-clay border-4 border-white overflow-hidden bg-gray-50 flex-shrink-0">
              <img src={post.author.avatar || `https://ui-avatars.com/api/?name=${post.author.name}&background=random`} alt={post.author.name} className="w-full h-full object-cover" />
           </div>
-          <div className="text-left">
+          <div className="text-center sm:text-left">
             <h4 className="font-bold text-gray-800 text-lg leading-tight">{post.author.name}</h4>
-            <div className="flex items-center gap-2 text-sm text-gray-400 font-bold uppercase tracking-wider mt-1">
+            <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2 text-xs text-gray-400 font-bold uppercase tracking-wider mt-1">
               <span>{new Date(post.createdAt).toLocaleDateString()}</span>
-              <span>•</span>
+              <span className="hidden xs:inline">•</span>
               <span>{post.readTime} min read</span>
               {post.viewCount !== undefined && (
                 <>
-                  <span>•</span>
+                  <span className="hidden xs:inline">•</span>
                   <span>{post.viewCount} views</span>
                 </>
               )}

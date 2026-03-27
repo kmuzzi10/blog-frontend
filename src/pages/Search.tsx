@@ -92,13 +92,13 @@ export function Search() {
   return (
     <div className="max-w-7xl mx-auto space-y-12 animate-in fade-in slide-in-from-bottom-8 duration-500 min-h-[60vh] py-8 px-4">
       {/* Search Header */}
-      <div className="text-center space-y-8">
-        <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight text-gray-900">Explore Stories</h1>
+      <div className="text-center space-y-6 sm:space-y-8 px-4">
+        <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-gray-900">Explore Stories</h1>
         <div className="max-w-2xl mx-auto relative group">
-          <SearchIcon className="absolute left-6 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-primary transition-colors" size={24} />
+          <SearchIcon className="absolute left-6 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-primary transition-all" size={20} />
           <input 
             type="text"
-            className="w-full bg-background rounded-full pl-16 pr-8 py-5 text-lg font-medium shadow-clay-inset focus:outline-none focus:shadow-clay-inset-hover transition-all placeholder:text-gray-400 border-0"
+            className="w-full bg-background rounded-full pl-14 sm:pl-16 pr-6 sm:pr-8 py-4 sm:py-5 text-base sm:text-lg font-medium shadow-clay-inset focus:outline-none focus:shadow-clay-inset-hover transition-all placeholder:text-gray-400 border-0"
             placeholder="Search by title, tag, or author..."
             value={query}
             onChange={(e) => {

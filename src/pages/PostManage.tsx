@@ -143,17 +143,17 @@ export function PostManage({ editMode }: PostManageProps) {
   return (
     <div className="max-w-4xl mx-auto space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-700 py-8">
       {/* Header & Controls */}
-      <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 pb-8 border-b border-gray-100">
-        <div>
-          <h1 className="text-4xl font-black text-gray-900 tracking-tight">
+      <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 pb-8 border-b border-gray-100 px-2 lg:px-0">
+        <div className="space-y-1">
+          <h1 className="text-3xl sm:text-4xl font-black text-gray-900 tracking-tight">
              {editMode ? 'Refine Story' : 'New Story'}
           </h1>
-          <p className="text-gray-500 font-medium mt-1 italic">Unleash your creativity and engage your audience.</p>
+          <p className="text-sm sm:text-base text-gray-500 font-medium italic">Unleash your creativity and engage your audience.</p>
         </div>
-        <div className="flex items-center gap-4 w-full md:w-auto">
+        <div className="flex flex-col sm:flex-row items-center gap-4 w-full md:w-auto">
           <Button 
             variant="ghost" 
-            className="rounded-2xl !px-6 border-2 border-transparent hover:border-gray-100 flex-1 md:flex-none shadow-clay transition-all"
+            className="rounded-2xl !px-6 border-2 border-transparent hover:border-gray-100 flex-1 md:flex-none shadow-clay transition-all w-full sm:w-auto"
             onClick={() => handleSubmit('Draft')}
             disabled={submitting}
           >
@@ -161,7 +161,7 @@ export function PostManage({ editMode }: PostManageProps) {
           </Button>
           <Button 
             variant="primary" 
-            className="rounded-2xl !px-8 shadow-clay-badge flex-1 md:flex-none font-black uppercase text-xs tracking-widest"
+            className="rounded-2xl !px-8 shadow-clay-badge flex-1 md:flex-none font-black uppercase text-xs tracking-widest w-full sm:w-auto py-5 md:py-3"
             onClick={() => handleSubmit('Published')}
             disabled={submitting}
           >
@@ -176,16 +176,16 @@ export function PostManage({ editMode }: PostManageProps) {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-1 gap-10">
-        <ClayCard className="space-y-10 bg-white/50 backdrop-blur-sm border-2 border-white shadow-clay-hover">
+        <ClayCard className="space-y-8 sm:space-y-10 bg-white/50 backdrop-blur-sm border-2 border-white shadow-clay-hover p-6 sm:p-10">
           {/* Title Editor */}
           <div className="space-y-2">
              <input 
               placeholder="Post Title..." 
-              className="w-full text-5xl font-black text-gray-900 border-0 focus:outline-none focus:ring-0 placeholder:text-gray-200 !bg-transparent tracking-tighter" 
+              className="w-full text-2xl sm:text-4xl md:text-5xl font-black text-gray-900 border-0 focus:outline-none focus:ring-0 placeholder:text-gray-200 !bg-transparent tracking-tighter" 
               value={title}
               onChange={(e) => setTitle(e.target.value)}
             />
-            <div className="h-1.5 w-24 bg-primary/20 rounded-full" />
+            <div className="h-1.5 w-16 sm:w-24 bg-primary/20 rounded-full" />
           </div>
           
           {/* Image Uploader */}

@@ -4,6 +4,7 @@ import { ClayCard } from '../components/ui/ClayCard';
 import { Button } from '../components/ui/Button';
 import { Badge } from '../components/ui/Badge';
 import { ArrowRight, Flame, Loader2, MessageSquare } from 'lucide-react';
+import { cn } from '../components/ui/Button';
 
 interface Category {
   _id: string;
@@ -92,22 +93,24 @@ export function Home() {
       {/* Hero Section / Featured Post */}
       {featuredPost && (
         <section>
-          <ClayCard padding="lg" interactive className="flex flex-col md:flex-row gap-8 items-center relative overflow-hidden group">
-            <div className="md:w-1/2 space-y-6 relative z-10">
-              <Badge variant="accent">Featured Post</Badge>
-              <h1 className="text-4xl md:text-5xl font-extrabold leading-tight text-gray-900 tracking-tight">
+          <ClayCard padding="lg" interactive className="flex flex-col lg:flex-row gap-8 items-center relative overflow-hidden group p-6 sm:p-10">
+            <div className="lg:w-1/2 space-y-4 sm:space-y-6 relative z-10 text-center lg:text-left">
+              <div className="flex justify-center lg:justify-start">
+                <Badge variant="accent">Featured Post</Badge>
+              </div>
+              <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold leading-tight text-gray-900 tracking-tight">
                 {featuredPost.title}
               </h1>
-              <p className="text-gray-600 text-lg leading-relaxed shadow-sm">
+              <p className="text-gray-600 text-base sm:text-lg leading-relaxed line-clamp-3">
                 {featuredPost.excerpt}
               </p>
-              <div className="flex items-center gap-4 pt-4">
-                <Link to={`/post/${featuredPost._id}`}>
-                  <Button variant="primary" size="lg" className="rounded-full shadow-clay text-sm px-8">Read Article <ArrowRight size={18} className="ml-2" /></Button>
+              <div className="flex items-center justify-center lg:justify-start gap-4 pt-4">
+                <Link to={`/post/${featuredPost._id}`} className="w-full sm:w-auto">
+                  <Button variant="primary" size="lg" className="rounded-full shadow-clay text-sm px-8 w-full">Read Story <ArrowRight size={18} className="ml-2" /></Button>
                 </Link>
               </div>
             </div>
-            <div className="md:w-1/2 relative z-10 rounded-[2.5rem] overflow-hidden shadow-clay h-96 w-full group-hover:shadow-clay-hover transition-all duration-500 border-4 border-white/50">
+            <div className="lg:w-1/2 relative z-10 rounded-[2rem] sm:rounded-[2.5rem] overflow-hidden shadow-clay h-60 sm:h-80 md:h-96 w-full group-hover:shadow-clay-hover transition-all duration-500 border-4 border-white/50">
               <img 
                 src={featuredPost.featuredImage || featuredPost.coverImage || 'https://images.unsplash.com/photo-1499750310107-5fef28a66643?auto=format&fit=crop&w=1200'} 
                 alt={featuredPost.title} 
@@ -119,28 +122,35 @@ export function Home() {
       )}
 
       {/* Categories Filter */}
-      <section className="flex items-center gap-4 overflow-x-auto pb-4 hide-scrollbar">
-        <ClayCard padding="none" className="min-w-fit flex items-center gap-3 p-3 rounded-full flex-wrap border-2 border-white/80 shadow-clay-badge">
+      <section className="flex items-center gap-4 overflow-x-auto pb-6 -mx-4 px-4 sm:mx-0 sm:px-0 scrollbar-hide">
+        <div className="flex items-center gap-3 p-2 rounded-full border-2 border-white/50 shadow-clay-badge bg-white/30 backdrop-blur-sm min-w-max">
           <Button 
             variant={activeCategory === 'All' ? 'primary' : 'ghost'} 
             size="sm" 
-            className="rounded-full !px-10 font-bold transition-all"
+            className={cn(
+              "rounded-full !px-8 font-black uppercase text-[10px] tracking-widest transition-all",
+              activeCategory === 'All' && "shadow-clay"
+            )}
             onClick={() => setActiveCategory('All')}
           >
-            All
+            All Stories
           </Button>
+          <div className="w-px h-6 bg-gray-200 mx-1" />
           {categories.map((cat) => (
             <Button 
               key={cat._id} 
               variant={activeCategory === cat._id ? 'primary' : 'ghost'} 
               size="sm" 
-              className="rounded-full !px-6 whitespace-nowrap font-bold"
+              className={cn(
+                "rounded-full !px-6 whitespace-nowrap font-bold text-sm transition-all",
+                activeCategory === cat._id && "shadow-clay"
+              )}
               onClick={() => setActiveCategory(cat._id)}
             >
               {cat.name}
             </Button>
           ))}
-        </ClayCard>
+        </div>
       </section>
 
       {/* Grid Posts */}
