@@ -4,7 +4,7 @@ import { ClayCard } from '../components/ui/ClayCard';
 import { Button } from '../components/ui/Button';
 import { Badge } from '../components/ui/Badge';
 import { Textarea } from '../components/ui/Input';
-import { ChevronLeft, MessageSquare, Loader2, AlertCircle, Lock } from 'lucide-react';
+import { ChevronLeft, Loader2, AlertCircle, Lock } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 
 interface Post {

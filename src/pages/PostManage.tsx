@@ -1,9 +1,9 @@
 import { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Input, Textarea } from '../components/ui/Input';
+import { Textarea } from '../components/ui/Input';
 import { Button } from '../components/ui/Button';
 import { ClayCard } from '../components/ui/ClayCard';
-import { ImagePlus, Save, Loader2, CheckCircle, UploadCloud } from 'lucide-react';
+import { ImagePlus, Loader2, CheckCircle, UploadCloud } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 
 interface Category {
