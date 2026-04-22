@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState } from 'react';
 
 export interface User {
   _id: string;
@@ -42,7 +42,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     return null;
   });
   const [token, setToken] = useState<string | null>(() => localStorage.getItem('accessToken'));
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading] = useState(false);
 
   // Effect previously used for hydration now removed as we hydrate synchronously
 

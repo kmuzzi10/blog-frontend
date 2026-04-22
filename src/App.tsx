@@ -18,7 +18,6 @@ import { DashboardCategories } from './pages/DashboardCategories';
 import { DashboardSettings } from './pages/DashboardSettings';
 
 import { ThemeProvider } from './contexts/ThemeContext';
-import { ThemeToggle } from './components/ThemeToggle';
 
 function App() {
   return (
