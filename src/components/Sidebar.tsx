@@ -3,6 +3,7 @@ import { Home, FileText, PlusCircle, Settings, LogOut, X, Users, Globe, Grid } f
 import { cn, Button } from './ui/Button';
 import { useAuth } from '../contexts/AuthContext';
 import { Badge } from './ui/Badge';
+import { ThemeToggle } from './ThemeToggle';
 
 interface SidebarProps {
   isOpen?: boolean;
@@ -88,6 +89,9 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
         </nav>
 
         <div className="mt-auto pt-8">
+          <div className="mb-6 flex justify-center">
+            <ThemeToggle />
+          </div>
           <NavLink
             to="/"
             onClick={onClose}

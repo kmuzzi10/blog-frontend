@@ -5,6 +5,7 @@ import { Button } from '../components/ui/Button';
 import { ClayCard } from '../components/ui/ClayCard';
 import { ImagePlus, Loader2, CheckCircle, UploadCloud } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
+import { LazyImage } from '../components/ui/LazyImage';
 
 interface Category {
   _id: string;
@@ -194,7 +195,7 @@ export function PostManage({ editMode }: PostManageProps) {
             className="relative w-full aspect-video rounded-3xl border-4 border-dashed border-gray-100/50 bg-gray-50 hover:bg-white hover:border-primary/20 transition-all cursor-pointer group flex flex-col items-center justify-center overflow-hidden"
           >
             {previewUrl ? (
-              <img src={previewUrl} className="w-full h-full object-cover" />
+              <LazyImage src={previewUrl} className="w-full h-full object-cover" wrapperClassName="w-full h-full" spinnerSize={24} />
             ) : (
               <>
                 <div className="p-6 bg-white rounded-full shadow-clay group-hover:scale-110 transition-all mb-4 text-primary opacity-50 group-hover:opacity-100">

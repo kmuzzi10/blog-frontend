@@ -36,8 +36,9 @@ export function Login() {
       login(json.data.user, json.data.tokens);
       const role = json.data.user.role?.toLowerCase() || 'author';
       navigate(role === 'admin' ? '/admin/dashboard' : '/author/dashboard');
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err) {
+      if (err instanceof Error) setError(err.message);
+      else setError('An error occurred during login');
     } finally {
       setLoading(false);
     }

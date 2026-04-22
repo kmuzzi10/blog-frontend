@@ -35,8 +35,9 @@ export function DashboardCategories() {
       } else {
         throw new Error(json.message);
       }
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err) {
+      if (err instanceof Error) setError(err.message);
+      else setError('Failed to fetch categories');
     } finally {
       setLoading(false);
     }
@@ -67,8 +68,8 @@ export function DashboardCategories() {
       } else {
         alert(json.message);
       }
-    } catch (err: any) {
-      alert(err.message);
+    } catch (err) {
+      alert(err instanceof Error ? err.message : 'Failed to create category');
     } finally {
       setCreating(false);
     }
@@ -91,8 +92,8 @@ export function DashboardCategories() {
       } else {
         alert(json.message);
       }
-    } catch (err: any) {
-      alert(err.message);
+    } catch (err) {
+      alert(err instanceof Error ? err.message : 'Failed to delete category');
     }
   };
 

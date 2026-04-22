@@ -4,6 +4,7 @@ import { ClayCard } from '../components/ui/ClayCard';
 import { Button } from '../components/ui/Button';
 import { Input, Textarea } from '../components/ui/Input';
 import { Camera, Save, Loader2, CheckCircle2 } from 'lucide-react';
+import { LazyImage } from '../components/ui/LazyImage';
 
 export function DashboardSettings() {
   const { currentUser, token, updateUser } = useAuth();
@@ -84,7 +85,7 @@ export function DashboardSettings() {
                <div className="relative group">
                   <div className="w-32 h-32 rounded-full overflow-hidden shadow-clay-badge border-4 border-white transition-transform group-hover:scale-105 duration-500 bg-gray-50 flex items-center justify-center">
                      {avatarPreview ? (
-                        <img src={avatarPreview} alt="Avatar" className="w-full h-full object-cover" />
+                        <LazyImage src={avatarPreview} alt="Avatar" className="w-full h-full object-cover" wrapperClassName="w-full h-full" spinnerSize={24} />
                      ) : (
                         <div className="text-gray-300 font-black text-4xl uppercase">{name.charAt(0) || '?'}</div>
                      )}

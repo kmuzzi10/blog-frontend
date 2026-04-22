@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 export default {
+  darkMode: 'class',
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
@@ -7,7 +8,21 @@ export default {
   theme: {
     extend: {
       colors: {
-        background: '#F5F7FB',
+        background: 'var(--bg-color)',
+        foreground: 'var(--text-color)',
+        white: 'rgb(var(--color-white) / <alpha-value>)',
+        gray: {
+          50:  'rgb(var(--color-gray-50) / <alpha-value>)',
+          100: 'rgb(var(--color-gray-100) / <alpha-value>)',
+          200: 'rgb(var(--color-gray-200) / <alpha-value>)',
+          300: 'rgb(var(--color-gray-300) / <alpha-value>)',
+          400: 'rgb(var(--color-gray-400) / <alpha-value>)',
+          500: 'rgb(var(--color-gray-500) / <alpha-value>)',
+          600: 'rgb(var(--color-gray-600) / <alpha-value>)',
+          700: 'rgb(var(--color-gray-700) / <alpha-value>)',
+          800: 'rgb(var(--color-gray-800) / <alpha-value>)',
+          900: 'rgb(var(--color-gray-900) / <alpha-value>)',
+        },
         primary: {
           light: '#8884FF',
           DEFAULT: '#6C63FF',
@@ -24,21 +39,21 @@ export default {
           dark: '#00A186',
         },
         clay: {
-          light: '#ffffff',
-          base: '#F5F7FB',
-          dark: '#d1d9e6',
+          light: 'var(--clay-light)',
+          base: 'var(--bg-color)',
+          dark: 'var(--clay-dark)',
         }
       },
       fontFamily: {
         sans: ['Inter', 'sans-serif'],
       },
       boxShadow: {
-        'clay': '8px 8px 16px #d1d9e6, -8px -8px 16px #ffffff',
-        'clay-hover': '12px 12px 20px #d1d9e6, -12px -12px 20px #ffffff',
-        'clay-inset': 'inset 6px 6px 12px #d1d9e6, inset -6px -6px 12px #ffffff',
-        'clay-inset-hover': 'inset 8px 8px 16px #d1d9e6, inset -8px -8px 16px #ffffff',
-        'clay-card': '10px 10px 20px #d1d9e6, -10px -10px 20px #ffffff',
-        'clay-badge': '4px 4px 8px #d1d9e6, -4px -4px 8px #ffffff',
+        'clay': '8px 8px 16px var(--clay-dark), -8px -8px 16px var(--clay-light)',
+        'clay-hover': '12px 12px 20px var(--clay-dark), -12px -12px 20px var(--clay-light)',
+        'clay-inset': 'inset 6px 6px 12px var(--clay-dark), inset -6px -6px 12px var(--clay-light)',
+        'clay-inset-hover': 'inset 8px 8px 16px var(--clay-dark), inset -8px -8px 16px var(--clay-light)',
+        'clay-card': '10px 10px 20px var(--clay-dark), -10px -10px 20px var(--clay-light)',
+        'clay-badge': '4px 4px 8px var(--clay-dark), -4px -4px 8px var(--clay-light)',
       },
       borderRadius: {
         'clay': '20px',

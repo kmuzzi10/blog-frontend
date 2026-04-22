@@ -4,6 +4,7 @@ import { Menu } from 'lucide-react';
 import { Button } from '../components/ui/Button';
 import { useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
+import { ThemeToggle } from '../components/ThemeToggle';
 
 export function DashboardLayout() {
   const { token, role, isLoading } = useAuth();
@@ -31,10 +32,13 @@ export function DashboardLayout() {
       <div className="flex-1 flex flex-col md:ml-64 w-full h-full relative">
         {/* Mobile Header */}
         <div className="md:hidden flex items-center justify-between p-4 bg-background shadow-clay z-10">
-          <span className="text-xl font-bold">{role === 'Admin' ? 'Admin Panel' : 'Author Panel'}</span>
-          <Button variant="ghost" size="sm" onClick={() => setSidebarOpen(true)}>
-            <Menu size={24} />
-          </Button>
+          <span className="text-xl font-bold border-l-4 border-primary pl-3">{role === 'Admin' ? 'Admin Panel' : 'Author Panel'}</span>
+          <div className="flex items-center gap-2">
+            <ThemeToggle />
+            <Button variant="ghost" size="sm" onClick={() => setSidebarOpen(true)}>
+              <Menu size={24} />
+            </Button>
+          </div>
         </div>
         
         {/* Content */}

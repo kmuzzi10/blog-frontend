@@ -3,14 +3,31 @@ import { ClayCard } from '../components/ui/ClayCard';
 import { Users, FileText, Activity, TrendingUp, MessageSquare, Loader2 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { Link } from 'react-router-dom';
+import { LazyImage } from '../components/ui/LazyImage';
 
 interface DashboardData {
   stats: {
     totalPosts: number;
     totalComments: number;
+    totalUsers?: number;
+    totalViews?: number;
   };
-  recentPosts: any[];
-  recentComments: any[];
+  recentPosts: Array<{
+    _id: string;
+    title: string;
+    featuredImage?: string;
+    createdAt: string;
+    categoryName?: string;
+    authorName?: string;
+    status: string;
+  }>;
+  recentComments: Array<{
+    _id: string;
+    author?: { name: string; avatar?: string };
+    postTitle?: string;
+    createdAt: string;
+    content: string;
+  }>;
 }
 
 export function Dashboard() {
@@ -66,13 +83,13 @@ export function Dashboard() {
     },
     { 
       label: role === 'Admin' ? 'Total Users' : 'Views', 
-      value: String(role === 'Admin' ? (data as any)?.stats?.totalUsers || 0 : 0), 
+      value: String(role === 'Admin' ? data?.stats?.totalUsers || 0 : 0), 
       icon: Users, 
       color: 'text-accent' 
     },
     { 
       label: role === 'Admin' ? 'Global Views' : 'Growth', 
-      value: role === 'Admin' ? String((data as any)?.stats?.totalViews || 0) : '+0%', 
+      value: role === 'Admin' ? String(data?.stats?.totalViews || 0) : '+0%', 
       icon: role === 'Admin' ? Activity : TrendingUp, 
       color: role === 'Admin' ? 'text-indigo-500' : 'text-green-500' 
     },
@@ -89,7 +106,7 @@ export function Dashboard() {
           </p>
         </div>
         <div className="w-16 h-16 rounded-[2rem] shadow-clay border-4 border-white overflow-hidden bg-gray-50">
-           <img src={currentUser?.avatar || `https://ui-avatars.com/api/?name=${currentUser?.name}&background=random`} alt="Profile" className="w-full h-full object-cover" />
+           <LazyImage src={currentUser?.avatar || `https://ui-avatars.com/api/?name=${currentUser?.name}&background=random`} alt="Profile" className="w-full h-full object-cover" wrapperClassName="w-full h-full" spinnerSize={16} />
         </div>
       </div>
 
@@ -128,7 +145,7 @@ export function Dashboard() {
                 <div className="flex items-center justify-between p-4 rounded-2xl bg-white/80 hover:bg-white hover:shadow-clay transition-all group border border-transparent hover:border-gray-50 mb-2">
                   <div className="flex items-center gap-4">
                     <div className="w-14 h-14 rounded-2xl overflow-hidden shadow-clay-inset border border-white">
-                      <img src={post.featuredImage || 'https://images.unsplash.com/photo-1499750310107-5fef28a66643?auto=format&fit=crop&w=200'} className="w-full h-full object-cover" />
+                      <LazyImage src={post.featuredImage || 'https://images.unsplash.com/photo-1499750310107-5fef28a66643?auto=format&fit=crop&w=200'} className="w-full h-full object-cover" wrapperClassName="w-full h-full" spinnerSize={16} />
                     </div>
                     <div>
                       <p className="font-bold text-gray-800 group-hover:text-primary transition-colors line-clamp-1">{post.title}</p>
@@ -165,7 +182,7 @@ export function Dashboard() {
             {data?.recentComments.length ? data.recentComments.map(comment => (
               <div key={comment._id} className="p-4 rounded-2xl bg-white/80 border border-transparent hover:border-gray-50 group hover:shadow-clay transition-all duration-300">
                 <div className="flex items-center gap-3 mb-3">
-                   <img src={comment.author?.avatar || `https://ui-avatars.com/api/?name=${comment.author?.name}`} className="w-6 h-6 rounded-full shadow-clay-inset" />
+                   <LazyImage src={comment.author?.avatar || `https://ui-avatars.com/api/?name=${comment.author?.name}`} className="w-full h-full object-cover" wrapperClassName="w-6 h-6 rounded-full shadow-clay-inset" spinnerSize={12} />
                    <div className="flex flex-col">
                       <span className="text-xs font-black text-gray-700">{comment.author?.name}</span>
                       {role === 'Admin' && <span className="text-[8px] font-black uppercase text-gray-400">On: {comment.postTitle}</span>}

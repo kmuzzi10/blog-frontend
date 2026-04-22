@@ -4,6 +4,8 @@ import { Button } from './ui/Button';
 import { PenTool, Search, Menu, X, Home, Compass, Info, Mail, LayoutDashboard, LogOut } from 'lucide-react';
 import { ClayCard } from './ui/ClayCard';
 import { useAuth } from '../contexts/AuthContext';
+import { LazyImage } from './ui/LazyImage';
+import { ThemeToggle } from './ThemeToggle';
 
 export function Navbar() {
   const { currentUser, role, logout } = useAuth();
@@ -50,6 +52,7 @@ export function Navbar() {
 
           {/* Actions */}
           <div className="flex items-center gap-2 sm:gap-4">
+            <ThemeToggle />
             <Link to="/search" className="hidden xs:block">
               <Button variant="ghost" size="sm" className="px-3 py-3 rounded-full">
                 <Search size={20} />
@@ -61,7 +64,7 @@ export function Navbar() {
                 <>
                   <Link to={`/${role?.toLowerCase()}/dashboard`}>
                     <Button variant="primary" size="sm" className="rounded-full shadow-clay text-sm flex gap-2 items-center">
-                      <img src={currentUser.avatar || `https://ui-avatars.com/api/?name=${currentUser.name}`} className="w-5 h-5 rounded-full bg-white/20"/>
+                      <LazyImage src={currentUser.avatar || `https://ui-avatars.com/api/?name=${currentUser.name}`} className="w-full h-full object-cover" wrapperClassName="w-5 h-5 rounded-full bg-white/20" spinnerSize={12}/>
                       <span className="max-w-[100px] truncate">{currentUser.name}</span>
                     </Button>
                   </Link>
@@ -131,7 +134,7 @@ export function Navbar() {
               {currentUser ? (
                 <div className="space-y-4">
                   <div className="flex items-center gap-4 p-4 bg-gray-50 rounded-3xl">
-                    <img src={currentUser.avatar || `https://ui-avatars.com/api/?name=${currentUser.name}`} className="w-12 h-12 rounded-2xl shadow-clay border-2 border-white"/>
+                    <LazyImage src={currentUser.avatar || `https://ui-avatars.com/api/?name=${currentUser.name}`} className="w-full h-full object-cover" wrapperClassName="w-12 h-12 rounded-2xl shadow-clay border-2 border-white" spinnerSize={16}/>
                     <div>
                       <p className="font-bold text-gray-800">{currentUser.name}</p>
                       <p className="text-xs font-bold text-primary uppercase tracking-widest">{role}</p>

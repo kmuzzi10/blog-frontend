@@ -5,6 +5,7 @@ import { Badge } from '../components/ui/Badge';
 import { Button } from '../components/ui/Button';
 import { useAuth } from '../contexts/AuthContext';
 import { Search as SearchIcon, Edit, Trash2, ChevronLeft, ChevronRight, Loader2, ExternalLink } from 'lucide-react';
+import { LazyImage } from '../components/ui/LazyImage';
 
 interface Post {
   _id: string;
@@ -139,7 +140,7 @@ export function DashboardPosts() {
                   <td className="p-6">
                     <div className="flex items-center gap-4">
                       <div className="w-16 h-16 rounded-2xl overflow-hidden shadow-clay-inset border-2 border-white bg-gray-100 flex-shrink-0">
-                        <img src={post.featuredImage || 'https://images.unsplash.com/photo-1499750310107-5fef28a66643?auto=format&fit=crop&w=200'} className="w-full h-full object-cover" />
+                        <LazyImage src={post.featuredImage || 'https://images.unsplash.com/photo-1499750310107-5fef28a66643?auto=format&fit=crop&w=200'} className="w-full h-full object-cover" wrapperClassName="w-full h-full" spinnerSize={16} />
                       </div>
                       <div>
                         <Link to={`/post/${post._id}`} className="font-extrabold text-gray-800 line-clamp-1 group-hover:text-primary transition-colors text-lg">{post.title}</Link>
@@ -153,7 +154,7 @@ export function DashboardPosts() {
                   {role === 'Admin' && (
                     <td className="p-6">
                       <div className="flex items-center gap-2">
-                        <img src={post.author?.avatar} alt={post.author?.name} className="w-8 h-8 rounded-full shadow-clay-inset border border-white" />
+                        <LazyImage src={post.author?.avatar} alt={post.author?.name} className="w-full h-full object-cover" wrapperClassName="w-8 h-8 rounded-full shadow-clay-inset border border-white" spinnerSize={12} />
                         <span className="text-sm font-bold text-gray-700">{post.author?.name}</span>
                       </div>
                     </td>

@@ -43,8 +43,8 @@ export const IdeaCatcherGame = () => {
   };
 
   useEffect(() => {
-    let spawnInterval: any;
-    let moveInterval: any;
+    let spawnInterval: ReturnType<typeof setInterval> | undefined;
+    let moveInterval: ReturnType<typeof setInterval> | undefined;
 
     if (isPlaying && !gameOver) {
       spawnInterval = setInterval(spawnIdea, 800);
@@ -97,7 +97,7 @@ export const IdeaCatcherGame = () => {
 
   return (
     <ClayCard className="relative overflow-hidden w-full max-w-md mx-auto aspect-square flex flex-col items-center justify-center p-0 border-4 border-white">
-      <div className="absolute top-0 left-0 right-0 p-4 bg-white/50 backdrop-blur-sm z-20 flex justify-between items-center border-b border-white">
+      <div className="absolute top-0 left-0 right-0 p-4 bg-white/50 backdrop-blur-sm z-40 flex justify-between items-center border-b border-white">
         <div className="flex items-center gap-2">
            <Trophy className="text-yellow-500" size={18} />
            <span className="font-black text-gray-800">{score}</span>

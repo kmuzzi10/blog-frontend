@@ -6,6 +6,7 @@ import { Badge } from '../components/ui/Badge';
 import { Textarea } from '../components/ui/Input';
 import { ChevronLeft, Loader2, AlertCircle, Lock } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
+import { LazyImage } from '../components/ui/LazyImage';
 
 interface Post {
   _id: string;
@@ -21,6 +22,7 @@ interface Post {
   category?: {
     name: string;
   };
+  tags?: string[];
   author: {
     _id: string;
     name: string;
@@ -60,7 +62,7 @@ export function BlogDetail() {
         } else {
           setError(json.message || 'Failed to retrieve post');
         }
-      } catch (err) {
+      } catch {
         setError('An error occurred while fetching the story.');
       } finally {
         setLoading(false);
@@ -101,7 +103,7 @@ export function BlogDetail() {
       } else {
         alert(json.message || 'Failed to post comment');
       }
-    } catch (err) {
+    } catch {
       alert('An error occurred while posting your comment.');
     } finally {
       setIsSubmitting(false);
@@ -151,7 +153,7 @@ export function BlogDetail() {
         
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
           <div className="w-16 h-16 rounded-full shadow-clay border-4 border-white overflow-hidden bg-gray-50 flex-shrink-0">
-             <img src={post.author.avatar || `https://ui-avatars.com/api/?name=${post.author.name}&background=random`} alt={post.author.name} className="w-full h-full object-cover" />
+             <LazyImage src={post.author.avatar || `https://ui-avatars.com/api/?name=${post.author.name}&background=random`} alt={post.author.name} className="w-full h-full object-cover" wrapperClassName="w-full h-full" spinnerSize={16} />
           </div>
           <div className="text-center sm:text-left">
             <h4 className="font-bold text-gray-800 text-lg leading-tight">{post.author.name}</h4>
@@ -170,9 +172,9 @@ export function BlogDetail() {
         </div>
 
         {/* Tags */}
-        {(post as any).tags && (post as any).tags.length > 0 && (
+        {post.tags && post.tags.length > 0 && (
           <div className="flex flex-wrap justify-center gap-2 pt-2">
-            {(post as any).tags.map((tag: string) => (
+            {post.tags.map((tag: string) => (
               <Badge key={tag} variant="secondary" className="px-3 py-0.5 text-xs font-bold uppercase tracking-wider bg-gray-100 hover:bg-gray-200 border-0">
                 #{tag}
               </Badge>
@@ -183,10 +185,11 @@ export function BlogDetail() {
 
       {/* Hero Image */}
       <ClayCard padding="none" className="overflow-hidden rounded-[3rem] shadow-clay-card aspect-video relative group border-8 border-white">
-        <img 
+        <LazyImage 
           src={post.featuredImage || post.coverImage || 'https://images.unsplash.com/photo-1499750310107-5fef28a66643?auto=format&fit=crop&w=1200'} 
           alt={post.title} 
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000" 
+          wrapperClassName="w-full h-full absolute inset-0"
         />
       </ClayCard>
 
@@ -261,10 +264,11 @@ export function BlogDetail() {
             post.comments.map((comment) => (
               <div key={comment._id} className="flex gap-4 group animate-in slide-in-from-left-4 duration-500">
                 <div className="w-12 h-12 shrink-0 rounded-full shadow-clay border-2 border-white overflow-hidden bg-gray-50">
-                  <img 
+                  <LazyImage 
                     src={comment.author.avatar || `https://ui-avatars.com/api/?name=${comment.author.name}&background=random`} 
                     alt={comment.author.name} 
                     className="w-full h-full object-cover" 
+                    wrapperClassName="w-full h-full" spinnerSize={16}
                   />
                 </div>
                 <div className="flex-1 bg-background shadow-clay-inset p-8 rounded-3xl rounded-tl-none border-2 border-white/50 hover:bg-white/40 transition-colors">

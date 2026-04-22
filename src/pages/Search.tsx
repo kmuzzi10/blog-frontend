@@ -5,6 +5,7 @@ import { Button } from '../components/ui/Button';
 import { ClayCard } from '../components/ui/ClayCard';
 import { Badge } from '../components/ui/Badge';
 import { Search as SearchIcon, Loader2, MessageSquare } from 'lucide-react';
+import { LazyImage } from '../components/ui/LazyImage';
 
 interface Category {
   _id: string;
@@ -52,37 +53,37 @@ export function Search() {
     }
   };
 
-  const fetchPosts = async () => {
-    setLoading(true);
-    try {
-      const baseUrl = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api/v1';
-      const url = new URL(`${baseUrl}/posts`);
-      url.searchParams.append('status', 'Published');
-      url.searchParams.append('page', page.toString());
-      url.searchParams.append('limit', '9');
-      if (query) url.searchParams.append('search', query);
-      if (activeCategory) url.searchParams.append('categoryId', activeCategory);
-
-      const response = await fetch(url.toString());
-      const json = await response.json();
-      if (json.success) {
-        setPosts(json.data);
-        if (json.meta) {
-          setTotalPages(json.meta.totalPages);
-        }
-      }
-    } catch (err) {
-      console.error('Posts fetch error:', err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
     fetchCategories();
   }, []);
 
   useEffect(() => {
+    const fetchPosts = async () => {
+      setLoading(true);
+      try {
+        const baseUrl = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api/v1';
+        const url = new URL(`${baseUrl}/posts`);
+        url.searchParams.append('status', 'Published');
+        url.searchParams.append('page', page.toString());
+        url.searchParams.append('limit', '9');
+        if (query) url.searchParams.append('search', query);
+        if (activeCategory) url.searchParams.append('categoryId', activeCategory);
+
+        const response = await fetch(url.toString());
+        const json = await response.json();
+        if (json.success) {
+          setPosts(json.data);
+          if (json.meta) {
+            setTotalPages(json.meta.totalPages);
+          }
+        }
+      } catch (err) {
+        console.error('Posts fetch error:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
     const timer = setTimeout(() => {
       fetchPosts();
     }, 500);
@@ -151,9 +152,10 @@ export function Search() {
             <Link key={post._id} to={`/post/${post._id}`}>
               <ClayCard interactive padding="sm" className="h-full flex flex-col gap-4 group hover:shadow-clay-hover pointer-events-auto">
                 <div className="w-full h-48 rounded-2xl overflow-hidden shadow-clay-inset relative">
-                   <img 
+                   <LazyImage 
                     src={post.featuredImage || post.coverImage || 'https://images.unsplash.com/photo-1499750310107-5fef28a66643?auto=format&fit=crop&w=800&q=80'} 
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" 
+                    wrapperClassName="w-full h-full absolute inset-0"
                   />
                   {post.category && (
                     <Badge variant="accent" className="absolute top-4 left-4 shadow-clay">{post.category.name}</Badge>
@@ -184,7 +186,7 @@ export function Search() {
                   {/* Author Info */}
                   <div className="pt-4 mt-auto flex items-center gap-3 border-t border-gray-100/50">
                     <div className="w-8 h-8 rounded-full shadow-clay border border-white overflow-hidden bg-gray-50">
-                      <img src={post.author.avatar || `https://ui-avatars.com/api/?name=${post.author.name}&background=random`} alt={post.author.name} className="w-full h-full object-cover" />
+                      <LazyImage src={post.author.avatar || `https://ui-avatars.com/api/?name=${post.author.name}&background=random`} alt={post.author.name} className="w-full h-full object-cover" wrapperClassName="w-full h-full" spinnerSize={16} />
                     </div>
                     <span className="text-xs font-bold text-gray-700">{post.author.name}</span>
                   </div>

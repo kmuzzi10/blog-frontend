@@ -4,6 +4,7 @@ import { Badge } from '../components/ui/Badge';
 import { Button } from '../components/ui/Button';
 import { useAuth } from '../contexts/AuthContext';
 import { Search as SearchIcon, Shield, Trash2, Loader2, ChevronLeft, ChevronRight, UserCheck, UserMinus } from 'lucide-react';
+import { LazyImage } from '../components/ui/LazyImage';
 
 interface User {
   _id: string;
@@ -172,7 +173,7 @@ export function DashboardUsers() {
                     <div className="flex items-center gap-4">
                       <div className="w-14 h-14 rounded-2xl overflow-hidden shadow-clay-inset flex-shrink-0 border-2 border-white bg-gray-50 flex items-center justify-center">
                         {user.avatar ? (
-                          <img src={user.avatar} className="w-full h-full object-cover" />
+                          <LazyImage src={user.avatar} className="w-full h-full object-cover" wrapperClassName="w-full h-full" spinnerSize={16} />
                         ) : (
                           <span className="text-xl font-black text-gray-300 uppercase italic leading-none">{user.name.charAt(0)}</span>
                         )}

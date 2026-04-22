@@ -8,6 +8,7 @@ import { cn } from '../components/ui/Button';
 import { ThreeDCard } from '../components/ui/ThreeDCard';
 import { IdeaCatcherGame } from '../components/ui/IdeaCatcherGame';
 import { motion } from 'framer-motion';
+import { LazyImage } from '../components/ui/LazyImage';
 
 interface Category {
   _id: string;
@@ -56,29 +57,29 @@ export function Home() {
     }
   };
 
-  const fetchPosts = async () => {
-    setLoading(true);
-    try {
-      const baseUrl = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api/v1';
-      let url = `${baseUrl}/posts?status=Published&limit=10`;
-      if (activeCategory !== 'All') {
-        url += `&categoryId=${activeCategory}`;
-      }
-      const response = await fetch(url);
-      const json = await response.json();
-      if (json.success) setPosts(json.data);
-    } catch (err) {
-      console.error('Failed to fetch posts:', err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
     fetchCategories();
   }, []);
 
   useEffect(() => {
+    const fetchPosts = async () => {
+      setLoading(true);
+      try {
+        const baseUrl = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api/v1';
+        let url = `${baseUrl}/posts?status=Published&limit=10`;
+        if (activeCategory !== 'All') {
+          url += `&categoryId=${activeCategory}`;
+        }
+        const response = await fetch(url);
+        const json = await response.json();
+        if (json.success) setPosts(json.data);
+      } catch (err) {
+        console.error('Failed to fetch posts:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
     fetchPosts();
   }, [activeCategory]);
 
@@ -138,10 +139,11 @@ export function Home() {
                   </motion.div>
                 </div>
                 <div className="lg:w-1/2 relative z-10 rounded-[2.5rem] overflow-hidden shadow-clay h-72 sm:h-80 md:h-[28rem] w-full group-hover:shadow-clay-hover transition-all duration-700 border-8 border-white group-hover:border-primary/20">
-                  <img 
+                  <LazyImage 
                     src={featuredPost.featuredImage || featuredPost.coverImage || 'https://images.unsplash.com/photo-1499750310107-5fef28a66643?auto=format&fit=crop&w=1200'} 
                     alt={featuredPost.title} 
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" 
+                    wrapperClassName="w-full h-full absolute inset-0"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
                 </div>
@@ -165,7 +167,7 @@ export function Home() {
                     <div className="flex items-center -space-x-3">
                        {[1,2,3,4].map(i => (
                           <div key={i} className="w-10 h-10 rounded-full border-4 border-white shadow-clay bg-gray-200 overflow-hidden">
-                             <img src={`https://i.pravatar.cc/100?img=${i+10}`} alt="Player" />
+                             <LazyImage src={`https://i.pravatar.cc/100?img=${i+10}`} alt="Player" className="w-full h-full object-cover" wrapperClassName="w-full h-full" spinnerSize={16} />
                           </div>
                        ))}
                        <div className="w-10 h-10 rounded-full border-4 border-white shadow-clay bg-primary flex items-center justify-center text-[10px] text-white font-bold">+500</div>
@@ -245,10 +247,11 @@ export function Home() {
                     <Link to={`/post/${post._id}`} className="block h-full">
                       <ClayCard interactive className="h-full flex flex-col items-start gap-4 p-6 hover:shadow-clay-hover border-4 border-white/50 bg-white/40 backdrop-blur-md transition-all group rounded-[2.5rem]">
                         <div className="w-full h-60 rounded-[2rem] overflow-hidden shadow-clay-inset mb-2 relative border-4 border-white">
-                          <img 
+                          <LazyImage 
                             src={post.featuredImage || post.coverImage || 'https://images.unsplash.com/photo-1499750310107-5fef28a66643?auto=format&fit=crop&w=800'} 
                             alt={post.title} 
                             className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" 
+                            wrapperClassName="w-full h-full absolute inset-0"
                           />
                           {post.category && (
                             <Badge variant="secondary" className="absolute top-4 left-4 shadow-clay !bg-white/90 backdrop-blur-md border-0 uppercase font-black text-[10px]">{post.category.name}</Badge>
@@ -273,7 +276,7 @@ export function Home() {
                         <div className="mt-auto flex items-center justify-between w-full pt-6 border-t border-gray-100/30">
                           <div className="flex items-center gap-3">
                             <div className="w-10 h-10 rounded-full shadow-clay border-2 border-white overflow-hidden bg-gray-50">
-                              <img src={post.author.avatar || `https://ui-avatars.com/api/?name=${post.author.name}&background=random`} alt={post.author.name} className="w-full h-full object-cover" />
+                              <LazyImage src={post.author.avatar || `https://ui-avatars.com/api/?name=${post.author.name}&background=random`} alt={post.author.name} className="w-full h-full object-cover" wrapperClassName="w-full h-full" spinnerSize={16} />
                             </div>
                             <div>
                               <p className="text-sm font-black text-gray-800 leading-none">{post.author.name}</p>
